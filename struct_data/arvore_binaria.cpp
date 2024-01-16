@@ -15,7 +15,7 @@ TypeArv* search_arv1(TypeArv *raiz, int numb); //Busca Melhorada
 int height_arv(TypeArv *raiz); // Tamanho da arvore
 int count_no(TypeArv *raiz); // Quantidade de No
 int count_sheet(TypeArv *raiz); // Quantidade de Folha
-TypeArv* remove_sheet(TypeArv *raiz, int key);
+TypeArv* remove_sheet(TypeArv *raiz, int key); // Remover Raiz
 
 int main() {
     TypeArv *search, *raiz = NULL;
