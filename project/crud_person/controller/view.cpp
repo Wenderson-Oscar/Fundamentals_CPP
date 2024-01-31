@@ -63,10 +63,10 @@ class CreateUser {
     public: 
 
         CreateUser(std::string name, std::string date, char sex, std::string object) {
-        this->name = name;
-        this->date = date;
-        this->sex = sex;
-        this->object = object;
+            this->name = name;
+            this->date = date;
+            this->sex = sex;
+            this->object = object;
         }
 
         void setname(std::string name) {
@@ -104,41 +104,41 @@ class CreateUser {
 };
 
 class ReadUser {
-    
+
     private:
-        std::string path_file;
-        std::ifstream database_file;
+        std::ifstream file;
 
-    ReadUser(const std::string& path) : path_file(path), database_file(path_file) {
-        if (!database_file.is_open()) {
-            throw std::runtime_error("Erro ao abrir o arquivo: " + path_file);
+    public:
+    ReadUser(const std::string& path) {
+        file.open(path);
+        if (!file.is_open()) {
+            throw std::runtime_error("Erro ao abrir o arquivo");
         }
     }
 
-    void read_user_full() {
-        std::string db;
-        while (std::getline(database_file, db)) {
-            std::cout << db << std::endl;
+    void read_users() {
+        std::string line;
+        while (std::getline(file, line)) {
+            std::cout << line << '\n';
         }
-        database_file.close();
+        file.close();
     }
 };
-
-class Controler {
-
-};
-
 
 int main() {
+    ControllerDatabase file("./database.txt");
+    std::cout << "Caminho do database: " << file.getDatabasePath() << '\n';
+    ReadUser user(file.getDatabasePath());
+    user.read_users();
     /* OptionObject select_object;
     int option;
     std::cout << "Escolha uma das Opções\n";
     select_object.print_object();
     std::cin >> option;
     std::string result = select_object.select_option(option);
-    CreateUser user("Oscar", "01/01/2000", 'M', result);
+    CreateUser user("Wenderson Oscar", "02/04/2002", 'M', result);
     std::cout << "Cadastro Realizado com Sucesso!\n";
-    DataBaseFile db("database.txt");
+    DataBaseFile db(file.getDatabasePath());
     db.create_user(user.getname(), user.getdate(), user.getsex(), user.getobject());
     std::cout << "Dados: " << user.getname() << " " << user.getdate() << " " << user.getsex() << " " << user.getobject() << '\n';
     std::cout << "Usuário Inserido no Banco de dados com sucesso!\n"; */

@@ -54,4 +54,16 @@ class DataBaseFile {
 
 };
 
+class ControllerDatabase {
+private:
+    std::string databasePath;
+
+public:
+    ControllerDatabase(const std::string& databasePath) : databasePath(databasePath) {}
+
+    std::string getDatabasePath() const {
+        return databasePath;
+    }
+};
+
 #endif
