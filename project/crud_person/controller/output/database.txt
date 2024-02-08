@@ -1,3 +1,0 @@
-ID: 1, Name: Oscar, Date of Birth : 01/01/2000, Sex: M, Object: Emagrecer
-ID: 2, Name: Wenderson Oscar, Date of Birth : 02/04/2002, Sex: M, Object: Ganhar Massa Muscular
-ID: 3, Name: Wenderson Oscar, Date of Birth : 02/04/2002, Sex: M, Object: Manter a Saúde

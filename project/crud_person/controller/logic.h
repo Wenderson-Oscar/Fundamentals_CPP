@@ -1,7 +1,13 @@
+#ifndef DATABASE_H
+
 # include <iostream>
 #include "../model/database.h"
 # include <fstream>
 #include <string>
+#include <vector>
+
+
+#define DATABASE_H
 
 class OptionObject {
 
@@ -125,22 +131,77 @@ class ReadUser {
     }
 };
 
-int main() {
-    ControllerDatabase file("./database.txt");
-    std::cout << "Caminho do database: " << file.getDatabasePath() << '\n';
-    ReadUser user(file.getDatabasePath());
-    user.read_users();
-    /* OptionObject select_object;
-    int option;
-    std::cout << "Escolha uma das Opções\n";
-    select_object.print_object();
-    std::cin >> option;
-    std::string result = select_object.select_option(option);
-    CreateUser user("Wenderson Oscar", "02/04/2002", 'M', result);
-    std::cout << "Cadastro Realizado com Sucesso!\n";
-    DataBaseFile db(file.getDatabasePath());
-    db.create_user(user.getname(), user.getdate(), user.getsex(), user.getobject());
-    std::cout << "Dados: " << user.getname() << " " << user.getdate() << " " << user.getsex() << " " << user.getobject() << '\n';
-    std::cout << "Usuário Inserido no Banco de dados com sucesso!\n"; */
-    return 0;
-}
+class UpdateUser {
+
+    private:
+        std::string databasePath;
+
+    public:
+        UpdateUser(const std::string& DatabasePath):
+            databasePath(DatabasePath) {}
+            
+    void update_user(const std::string& id, const std::string& name = "", const std::string& dob = "", const std::string& sex = "", const std::string& object = "") {
+        std::vector<std::string> lines;
+        std::ifstream file(databasePath);
+        std::string line;
+        while (std::getline(file, line)) {
+            if (line.find("ID: " + id + ",") != std::string::npos) {
+                std::stringstream ss(line);
+                std::string field;
+                std::getline(ss, field, ':'); 
+                std::getline(ss, field, ',');  
+                std::string newLine = "ID: " + field + ",";
+                std::getline(ss, field, ':'); 
+                std::getline(ss, field, ','); 
+                newLine += " Name: " + (name.empty() ? field : name) + ",";
+                std::getline(ss, field, ':');
+                std::getline(ss, field, ',');  
+                newLine += " Date of Birth : " + (dob.empty() ? field : dob) + ",";
+                std::getline(ss, field, ':');  
+                std::getline(ss, field, ',');
+                newLine += " Sex: " + (sex.empty() ? field : sex) + ",";
+                std::getline(ss, field, ':');  
+                std::getline(ss, field, ',');
+                newLine += " Object: " + (object.empty() ? field : object);
+                line = newLine;
+            }
+            lines.push_back(line);
+        }
+        file.close();
+        std::ofstream fileOut(databasePath);
+        for (const auto& line : lines) {
+            fileOut << line << '\n';
+        }
+    }
+            
+};
+
+class DeleteUser {
+
+    private:
+        std::string databasePath;
+
+    public:
+        DeleteUser(const std::string& DatabasePath):
+            databasePath(DatabasePath) {}
+            
+    void delete_user(const std::string& id) {
+        std::vector<std::string> lines;
+        std::ifstream file(databasePath);
+        std::string line;
+        while (std::getline(file, line)) {
+            if (line.find("ID: " + id + ",") != std::string::npos) {
+                continue;
+            }
+            lines.push_back(line);
+        }
+        file.close();
+        std::ofstream fileOut(databasePath);
+        for (const auto& line : lines) {
+            fileOut << line << '\n';
+        }
+    }
+       
+};
+
+#endif
